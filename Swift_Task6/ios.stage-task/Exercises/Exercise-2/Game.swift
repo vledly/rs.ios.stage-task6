@@ -18,6 +18,21 @@ struct Game: GameCompatible {
 extension Game {
 
     func defineFirstAttackingPlayer(players: [Player]) -> Player? {
-        nil
+        var result: Player?
+        var count: Int?
+        for player in players {
+            let newCount = player.hand?.reduce(0, { $1.isTrump ? $0 + 1 : $0 + 0 }) ?? 0
+            
+            if let co = count {
+                if newCount < co {
+                    count = newCount
+                    result = player
+                }
+            } else {
+                result = player
+                count = newCount
+            }
+        }
+        return result
     }
 }
